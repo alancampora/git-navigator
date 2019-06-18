@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import * as GithubClient from '../log-in';
 
 function useCommits() {
 	const [commits, setCommit] = useState([]);
@@ -13,11 +14,11 @@ function useCommits() {
 			.then(data => data.json())
 			.then(data => {
 				//if (!data || data.message) {
-					//return [];
+				//return [];
 				//}
 				//if (data) {
-					setCommit(commits.push(data));
-					//getAllCommits(cursor + 1);
+				setCommit(commits.push(data));
+				//getAllCommits(cursor + 1);
 				//}
 			})
 			.catch(error => {
@@ -30,15 +31,18 @@ function useCommits() {
 	return [commits];
 }
 
+function App({value}) {
+  const token = useContext(GithubClient.Context);
+  console.log('githubToken', token);
+	return <div> logged in! {token} </div>;
+}
+
 function Navigation() {
-	const [commits] = useCommits();
+	//const [commits] = useCommits();
 	return (
-		<div>
-			This is a test
-			{commits.map(commit => (
-				<div> {commit.sha}</div>
-			))}
-		</div>
+		<GithubClient.Provider>
+			<App />
+		</GithubClient.Provider>
 	);
 }
 
