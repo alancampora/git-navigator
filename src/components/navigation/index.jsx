@@ -31,19 +31,9 @@ function useCommits() {
 	return [commits];
 }
 
-function App({value}) {
-  const token = useContext(GithubClient.Context);
-  console.log('githubToken', token);
+function Navigation({ value }) {
+	const token = useContext(GithubClient.Context);
 	return <div> logged in! {token} </div>;
-}
-
-function Navigation() {
-	//const [commits] = useCommits();
-	return (
-		<GithubClient.Provider>
-			<App />
-		</GithubClient.Provider>
-	);
 }
 
 export default Navigation;

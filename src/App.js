@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import * as GithubClient from './components/log-in';
 import Navigation from './components/navigation';
 
-class App extends Component {
-	render() {
-		return <Navigation />;
-	}
+function App() {
+	return (
+		<GithubClient.Provider>
+			<Navigation />
+		</GithubClient.Provider>
+	);
 }
 
 export default App;
