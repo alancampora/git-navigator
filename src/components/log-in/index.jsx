@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import netlify from 'netlify-auth-providers';
+import { GraphQLClient } from 'graphql-request';
 
 const TOKEN_KEY = 'github-token';
-
 function authenticate() {
 	return new Promise(function(resolve, reject) {
 		const authenticator = new netlify({
@@ -21,7 +21,10 @@ function useLocalStorage(key, initialValue) {
 	const [storedValue, setStoredValue] = useState(() => {
 		try {
 			const item = window.localStorage.getItem(key);
-			return item ? JSON.parse(item) : initialValue;
+			if (item) {
+				return JSON.parse(item);
+			}
+			return initialValue;
 		} catch (error) {
 			console.log(error);
 			return initialValue;
@@ -40,11 +43,31 @@ function useLocalStorage(key, initialValue) {
 	return [storedValue, setValue];
 }
 
+function useClient(token) {
+	const [client, setClient] = useState(null);
+
+	useEffect(
+		() => {
+			const headers = { Authorization: `bearer ${token}` };
+
+			const newClient = new GraphQLClient('https://api.github.com/graphql', {
+				headers,
+			});
+
+			setClient(newClient);
+		},
+		[token],
+	);
+
+	return [client];
+}
+
 const GithubClientContext = React.createContext();
 const { Provider, Consumer } = GithubClientContext;
 
 function GithubClientProvider({ children }) {
 	const [currentToken, setToken] = useLocalStorage(TOKEN_KEY, null);
+	const [client] = useClient(currentToken);
 
 	const handleLoginClick = async () => {
 		try {
@@ -55,8 +78,8 @@ function GithubClientProvider({ children }) {
 		}
 	};
 
-	return currentToken ? (
-		<Provider value={currentToken}>{children}</Provider>
+	return client ? (
+		<Provider value={client}>{children}</Provider>
 	) : (
 		<div>
 			You have no client!
