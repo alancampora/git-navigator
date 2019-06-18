@@ -8,7 +8,10 @@ function authenticate() {
 		const authenticator = new netlify({
 			site_id: '44adb0c5-3f01-497d-bac4-50f9b60100f9',
 		});
-		authenticator.authenticate({ provider: 'github' }, function(err, data) {
+		authenticator.authenticate({ provider: 'github', scope: 'user' }, function(
+			err,
+			data,
+		) {
 			if (err) {
 				reject(err);
 			}
@@ -48,6 +51,9 @@ function useClient(token) {
 
 	useEffect(
 		() => {
+			if (!token) {
+				return;
+			}
 			const headers = { Authorization: `bearer ${token}` };
 
 			const newClient = new GraphQLClient('https://api.github.com/graphql', {
