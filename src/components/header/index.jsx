@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import Query from '../query';
+import { StyledImage, Wrapper } from './styled';
 import * as GithubClient from '../log-in';
 
 const gql = String.raw;
@@ -20,10 +21,9 @@ function Header({ value }) {
 			{data => {
 				return (
 					data && (
-						<div>
-							<p> {data.viewer.name} </p>
-							<img src={data.viewer.avatarUrl} />
-						</div>
+						<Wrapper>
+							<StyledImage src={data.viewer.avatarUrl} />
+						</Wrapper>
 					)
 				);
 			}}
