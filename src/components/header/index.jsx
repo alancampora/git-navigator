@@ -14,15 +14,13 @@ const query = gql`
 `;
 
 const Header = () => (
-	<Query query={query}>
-		{({ data, loading, error }) =>
-			!loading && (
-				<Wrapper>
-					<StyledImage src={data.viewer.avatarUrl} />
-				</Wrapper>
-			)
-		}
-	</Query>
+	<Wrapper>
+		<Query query={query}>
+			{({ data, loading, error }) =>
+				!loading && <StyledImage src={data.viewer.avatarUrl} />
+			}
+		</Query>
+	</Wrapper>
 );
 
 export default Header;

@@ -2,9 +2,10 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
 	text-align: right;
+	height: 50px;
+	padding: 0.5rem;
 `;
 export const StyledImage = styled.img`
-	width: 75px;
-  padding: 1rem;
+	height: 100%;
 	border-radius: 50%;
 `;
