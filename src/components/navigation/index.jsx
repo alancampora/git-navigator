@@ -61,16 +61,15 @@ function Navigation({ value }) {
 
 	return (
 		<Query query={tstQuery}>
-			{data => {
-				console.log(data);
-				return (
+			{({ data, loading, error }) =>
+				!loading && (
 					<div>
-						{data && data.repository.issues.edges.map(item => (
+						{data.repository.issues.edges.map(item => (
 							<div> {item.node.title} </div>
 						))}
 					</div>
-				);
-			}}
+				)
+			}
 		</Query>
 	);
 }

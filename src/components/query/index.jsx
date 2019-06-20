@@ -4,6 +4,8 @@ import * as GithubClient from '../log-in';
 export default function Query({ query, children }) {
 	const client = useContext(GithubClient.Context);
 	const [data, setData] = useState(null);
+	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(
 		() => {
@@ -11,12 +13,15 @@ export default function Query({ query, children }) {
 				try {
 					const result = await client.request(query);
 					setData(result);
-				} catch (error) {}
+					setLoading(false);
+				} catch (e) {
+					setError(e);
+				}
 			}
-      runQuery();
+			runQuery();
 		},
 		[query],
 	);
 
-	return children(data);
+	return children({ data, loading, error });
 }

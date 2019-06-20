@@ -18,15 +18,13 @@ function Header({ value }) {
 
 	return (
 		<Query query={viewer}>
-			{data => {
-				return (
-					data && (
-						<Wrapper>
-							<StyledImage src={data.viewer.avatarUrl} />
-						</Wrapper>
-					)
-				);
-			}}
+			{({ data, loading, error }) =>
+				!loading && (
+					<Wrapper>
+						<StyledImage src={data.viewer.avatarUrl} />
+					</Wrapper>
+				)
+			}
 		</Query>
 	);
 }

@@ -2,8 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import * as GithubClient from './components/log-in';
-import Navigation from './components/navigation';
 import Header from './components/header';
+import Navigation from './components/navigation';
 
 function App() {
 	return (
