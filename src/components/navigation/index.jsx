@@ -3,7 +3,7 @@ import Query from '../query';
 import * as GithubClient from '../log-in';
 
 const gql = String.raw;
-const tstQuery = gql`
+const query = gql`
 	query {
 		repository(owner: "octocat", name: "Hello-World") {
 			issues(last: 20, states: CLOSED) {
@@ -25,22 +25,18 @@ const tstQuery = gql`
 	}
 `;
 
-function Navigation({ value }) {
-	const client = useContext(GithubClient.Context);
-
-	return (
-		<Query query={tstQuery}>
-			{({ data, loading, error }) =>
-				!loading && (
-					<div>
-						{data.repository.issues.edges.map(item => (
-							<div> {item.node.title} </div>
-						))}
-					</div>
-				)
-			}
-		</Query>
-	);
-}
+const Navigation = () => (
+	<Query query={query}>
+		{({ data, loading, error }) =>
+			!loading && (
+				<div>
+					{data.repository.issues.edges.map(item => (
+						<div> {item.node.title} </div>
+					))}
+				</div>
+			)
+		}
+	</Query>
+);
 
 export default Navigation;

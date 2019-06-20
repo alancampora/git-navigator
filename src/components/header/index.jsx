@@ -4,7 +4,7 @@ import { StyledImage, Wrapper } from './styled';
 import * as GithubClient from '../log-in';
 
 const gql = String.raw;
-const viewer = gql`
+const query = gql`
 	query {
 		viewer {
 			name
@@ -13,20 +13,16 @@ const viewer = gql`
 	}
 `;
 
-function Header({ value }) {
-	const client = useContext(GithubClient.Context);
-
-	return (
-		<Query query={viewer}>
-			{({ data, loading, error }) =>
-				!loading && (
-					<Wrapper>
-						<StyledImage src={data.viewer.avatarUrl} />
-					</Wrapper>
-				)
-			}
-		</Query>
-	);
-}
+const Header = () => (
+	<Query query={query}>
+		{({ data, loading, error }) =>
+			!loading && (
+				<Wrapper>
+					<StyledImage src={data.viewer.avatarUrl} />
+				</Wrapper>
+			)
+		}
+	</Query>
+);
 
 export default Header;
